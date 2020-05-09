@@ -1,8 +1,24 @@
-function setTechnology(text){
+
+const Actions={
+    setTypeDeposit,
+    setTypeWithDrawl
+}
+
+function setTypeDeposit(text,action){
     return {
-        type:"SET_TECHNOLOGY",
-        text:text
+        type:"DEPOSIT_MONEY",
+        option:text,
+        action:action
+    }
+}
+function setTypeWithDrawl(text,action){
+    return {
+        type:"WITHDRAW_MONEY",
+        option:text,
+        action:action
     }
 }
 
-export default setTechnology;
+
+
+export default Actions;
