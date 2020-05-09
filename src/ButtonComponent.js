@@ -6,7 +6,7 @@ import setTechnology from './actions'
         <div>
             {technologies.map((tech,i)=>(
                 <button  
-                data-tech={tech}
+                value={tech}
                 key={i}
                 onClick={dispatchAction}
                 >
@@ -20,7 +20,7 @@ import setTechnology from './actions'
 
 
 function dispatchAction(e){
-    const tech=e.target.dataset.tech;
+    const tech=e.currentTarget.value;
     store.dispatch(setTechnology(tech))
 }
 
