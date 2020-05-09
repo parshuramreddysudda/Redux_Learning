@@ -1,13 +1,23 @@
 import store from "../store";
+import AccountHelper from '../Helpers/AccountHelpers'
 
 export default  (state , action) => {
 
+
+
      switch (action.type) {
-         case "SET_TECHNOLOGY":
+         case "DEPOSIT_MONEY":
              return {
-                 ...state,
-                 tech: action.text
+                 option: action.option,
+                 money:AccountHelper.increaseAmount(action,state),
+                 action:action.action
                  
+                }
+            case "WITHDRAW_MONEY":
+                return {
+                    option:action.option,
+                    money:AccountHelper.deduceAmount(action,state),
+                    action:action.action
                 }
          default:
              return state;

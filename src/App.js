@@ -3,12 +3,13 @@ import HelloWorld from './HelloWorld';
 import Button from './ButtonComponent';
 import store from './store/index';
 
+
 class App extends Component {
 
   render() {
     return [
-      <div>  <HelloWorld key={1} tech={store.getState().tech} />
-    <Button kwy={2} technologies={["React","VueJs","Angular"]}></Button>
+      <div>  
+    <Button key={2} withDraw={5000} deposit={5000}></Button>
     </div>
     ];
   }
