@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import HelloWorld from './HelloWorld';
 import Button from './ButtonComponent';
-import store from './store/index';
 
 
 class App extends Component {
