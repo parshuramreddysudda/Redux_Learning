@@ -28,6 +28,11 @@ const usersReducer = (state=initialState, action) => {
         ...state,
         error: action.payload
       };
+    case 'RESET_USERS':
+      return{
+        ...state,
+        items:[]
+      }
     default:
       return state;
     }

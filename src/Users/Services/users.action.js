@@ -16,6 +16,9 @@ export const fetchUsersError = (error) => ({
   type: 'FETCH_USERS_ERROR',
   payload: error
 });
+export const resetUsers = () => ({
+  type: 'RESET_USERS'
+});
 
 export const fetchUsers = (params) => (dispatch) => {
 

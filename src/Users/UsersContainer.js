@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  fetchUsers
+  fetchUsers,resetUsers
 } from  './Services/users.action';
 import Users from './User'
 
@@ -12,7 +12,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchUsers
+  fetchUsers:fetchUsers,
+  resetUsers:resetUsers
 }, dispatch);
 
 const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users);
