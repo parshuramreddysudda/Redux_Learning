@@ -1,27 +1,27 @@
 import React from 'react';
-import MainHelper from '../src/Services/MainHelper';
-import MainServices from '../src/Services/MainServices';
+import MainHelper from '../src/Users/Services/MainHelper';
+import MainServices from '../src/Users/Services/MainServices';
 import Container from '@material-ui/core/Container';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
 import TableCell from '@material-ui/core/TableCell';
-import SnackBar from '../src/Components/Snackbar';
-import EditModel from './Components/EditUser';
-import Loader from './Components/Loader'
-import Delete from './Components/DeleteUser'
+import SnackBar from './Users/Components/Snackbar';
+import EditModel from './Users/Components/EditUser';
+import Loader from './Users/Components/Loader'
+import Delete from './Users/Components/DeleteUser'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import UserModel from '../src/Components/User'
+import UserModel from './Users/Components/User'
 import Button from '@material-ui/core/Button';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import '../src/assests/css/CrudStyles.css'
-import CreateUser from './Components/CreateUser';
+import CreateUser from './Users/Components/CreateUser';
 
 export default class Crud extends React.Component {
   constructor(props) {
