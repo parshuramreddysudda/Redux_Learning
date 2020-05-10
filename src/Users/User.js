@@ -44,7 +44,7 @@ export default class Crud extends React.Component {
       confirmDeleteCount: 0,
       showUserCount: 0,
     };
-    this.getAllUsers = this.getAllUsers.bind(this);
+    // this.getAllUsers = this.getAllUsers.bind(this);
     this.resetData = this.resetData.bind(this);
     this.deleteUserfromId = this.deleteUserfromId.bind(this)
     this.child = React.createRef();
@@ -53,15 +53,18 @@ export default class Crud extends React.Component {
 
 
   }
-  getAllUsers() {
-    this.setState({ isLoading: false })
-    MainServices.getAllUsers().then(response => {
-      this.setState({ users: response.data })
-    }).finally(
-      this.setState({ isLoading: true })
-    )
 
-  }
+  // getAllUsers() {
+  //   this.setState({ isLoading: false })
+  //   MainServices.getAllUsers().then(response => {
+  //     this.setState({ users: response.data })
+  //   }).finally(
+  //     this.setState({ isLoading: true })
+  //   )
+  // }
+
+
+
   resetData() {
     this.setState({ user: [] })
     console.log("Cleared", this.state.users)
@@ -75,7 +78,8 @@ export default class Crud extends React.Component {
     this.setState({ deleteSnakOpen: false })
   }
   componentDidMount() {
-    this.getAllUsers();
+
+    this.props.fetchUsers();
   }
   handleEdit(id) {
     this.setState({ editUser: id })
@@ -108,12 +112,12 @@ export default class Crud extends React.Component {
   }
 
   render() {
-
-
+    let { users,loading,fetchUsers }= this.props;
+    
     return (
 
       <div>
-        {this.state.isLoading ?
+        {loading ?
           <Container >
             <TableContainer component={Paper}>
               <Grid container spacing={3} direction="row" justify="flex-end" alignItems="center" >
@@ -163,7 +167,7 @@ export default class Crud extends React.Component {
             <br></br>
             <Grid container spacing={3} direction="row" justify="center" alignItems="center" >
               <Grid item xs={6} sm={3}>
-                <Paper className="paper"> <Button onClick={this.getAllUsers}>Request New Data</Button></Paper>
+                <Paper className="paper"> <Button onClick={fetchUsers}>Request New Data</Button></Paper>
               </Grid>
               <Grid item xs={6} sm={3}>
                 <Paper className='paper'>    <Button color="primary" onClick={this.resetData}>ClearAll Data</Button></Paper>
