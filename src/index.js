@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App'
+import User from './Users/User';
 
-ReactDOM.render( <App></App>, document.getElementById('root'));
+ReactDOM.render( <User></User>, document.getElementById('root'));
