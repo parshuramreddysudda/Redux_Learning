@@ -50,6 +50,7 @@ export default class Crud extends React.Component {
     this.child = React.createRef();
     this.createUser = this.createUser.bind(this)
     this.closeCreateUser = this.closeCreateUser.bind(this)
+    this.updateUser = this.updateUser.bind(this)
 
 
   }
@@ -82,12 +83,22 @@ export default class Crud extends React.Component {
     // this.setState({ deleteSnakOpen: false })
   }
   componentDidMount() {
-    this.props.fetchUsers();
+    
+    this.props.fetchUsers().then(()=>{
+      let updatingUser=this.props.users[0];
+      updatingUser.state='telanagana'
+      console.log(updatingUser)
+      this.updateUser(updatingUser);
+    });
+
+  }
+  updateUser(updateUser){
+    this.props.updateUser(updateUser,updateUser.id)
   }
   handleEdit(id) {
-    // this.setState({ editUser: id })
-    // this.setState({ modalButton: true })
-    // this.setState({ editUserCount: this.state.editUserCount + 1 })
+    this.setState({ editUser: id })
+    this.setState({ modalButton: true })
+    this.setState({ editUserCount: this.state.editUserCount + 1 })
   }
   handleOneUser(id) {
 
@@ -181,7 +192,13 @@ export default class Crud extends React.Component {
       
                   {/* <SnackBar show={this.state.deleteSnakOpen} closeSnak={this.closeSnak} snakType="error" desc={this.state.snakDesc} /> */}
       
-                  {/* <EditModel user={this.state.editUser} count={this.state.editUserCount} Open={this.state.modalButton}></EditModel> */}
+                  <EditModel 
+                  user={this.state.editUser}
+                   count={this.state.editUserCount} 
+                   Open={this.state.modalButton}
+                   updateUser={this.updateUser}
+                   ></EditModel>
+                  
                   {/* <CreateUser Open={this.state.createButton} count={this.state.createUserCount} closeModel={this.closeCreateUser}> </CreateUser> */}
                   {/* <UserModel user={this.state.oneUser} count={this.state.showUserCount} Open={this.state.userButton}  ></UserModel> */}
                   {/* <Delete count={this.state.confirmDeleteCount} delete={this.deleteUserfromId} user={this.state.oneUser} ></Delete> */}

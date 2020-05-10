@@ -52,8 +52,15 @@ const ModalComponent = (props) => {
     }
     const classes = useStyles();
     const sendData = () => {
-        MainServices.putUser(props.user, user.name, user.state, user.created, user.updated, user.type).then(res => {
-        })
+        // MainServices.putUser(props.user, user.name, user.state, user.created, user.updated, user.type).then(res => {
+        // })
+        const params={
+            id:props.user,
+            ...user
+        }
+        console.log("Params is ",params)
+        props.updateUser(params);
+       
         setSnakDesc("User id with " + props.user + " has successfully Updated")
         setSnakOpen(true);
         handleClose();
