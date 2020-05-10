@@ -1,0 +1,312 @@
+openapi: "3.0.0"
+info: 
+  title: "Resource CRUD API"
+  version: "0.1"
+paths: 
+  /api/v1/policies/resources: 
+    get: 
+      operationId: "dal.resources.get_all"
+      summary: "Get list of available Resources"
+      parameters: 
+        - 
+          name: "type"
+          in: "query"
+          description: "Query param to filter resources by type"
+          required: false
+          schema: 
+            $ref: "#/components/schemas/ResourceType"
+      responses: 
+        200: 
+          description: "Success"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/resources"
+        400: 
+          description: "Bad Request"
+        401: 
+          description: "Unauthorized Request"
+    post: 
+      operationId: "dal.resources.create_and_get"
+      summary: "Create Resource"
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              x-body-name: "resource"
+              $ref: "#/components/schemas/ResourceCreateEntity"
+        required: true
+      responses: 
+        200: 
+          description: "Resource created successfully"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ResourceEntity"
+  /api/v1/policies/resources/{id}: 
+    get: 
+      operationId: "dal.resources.get"
+      summary: "Get Resource"
+      parameters: 
+        - 
+          name: "id"
+          in: "path"
+          description: "Resource Id"
+          required: true
+          schema: 
+            $ref: "#/components/schemas/ResourceId"
+      responses: 
+        200: 
+          description: "Success"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ResourceEntity"
+    put: 
+      operationId: "dal.resources.update"
+      summary: "Update Resource"
+      parameters: 
+        - 
+          name: "id"
+          in: "path"
+          description: "Resource Id"
+          required: true
+          schema: 
+            $ref: "#/components/schemas/ResourceId"
+      requestBody: 
+        content: 
+          application/json: 
+            schema: 
+              x-body-name: "resource"
+              $ref: "#/components/schemas/ResourceCreateEntity"
+        required: true
+      responses: 
+        200: 
+          description: "Resource updated successfully"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/ResourceEntity"
+    delete: 
+      operationId: "dal.resources.delete"
+      summary: "Delete Resource"
+      parameters: 
+        - 
+          name: "id"
+          in: "path"
+          description: "Resource Id"
+          required: true
+          schema: 
+            $ref: "#/components/schemas/ResourceId"
+      responses: 
+        204: 
+          description: "Resource deleted successfully"
+  /api/v1/policies/resources/{id}/mappings: 
+    get: 
+      operationId: "dal.resources.get_all_role_mapping_rules"
+      summary: "Get list of all Role Mapping Rules"
+      parameters: 
+        - 
+          name: "id"
+          in: "path"
+          description: "Resource Id"
+          required: true
+          schema: 
+            $ref: "#/components/schemas/ResourceId"
+      responses: 
+        200: 
+          description: "Success"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/RoleMappingRuleCollectionEntity"
+components: 
+  schemas: 
+    ResourceEntity: 
+      type: "object"
+      properties: 
+        name: 
+          type: "string"
+        type: 
+          $ref: "#/components/schemas/ResourceType"
+        description: 
+          type: "string"
+          nullable: true
+        sign_in_config: 
+          $ref: "#/components/schemas/SignInPolicyEntity"
+        app_config: 
+          $ref: "#/components/schemas/ApplicationConfigEntity"
+    ResourceCreateEntity: 
+      type: "object"
+      properties: 
+        id: 
+          $ref: "#/components/schemas/ResourceId"
+        name: 
+          type: "string"
+        type: 
+          $ref: "#/components/schemas/ResourceType"
+          x-nullable: true
+        description: 
+          type: "string"
+        sign_in_config: 
+          $ref: "#/components/schemas/SignInPolicyEntity"
+        app_config: 
+          $ref: "#/components/schemas/ApplicationConfigEntity"
+    ResourceType: 
+      type: "string"
+      enum: 
+        - "sign_in"
+        - "application"
+    SignInPolicyEntity: 
+      type: "object"
+      properties: 
+        id: 
+          $ref: "#/components/schemas/SignInPolicyId"
+        policy_type: 
+          type: "string"
+          enum: 
+            - "admin"
+            - "user"
+        url_pattern: 
+          type: "string"
+        realm: 
+          type: "string"
+        use_as_saml_idp: 
+          type: "boolean"
+        primary_auth_server_id: 
+          x-nullable: true
+          $ref: "#/components/schemas/AuthServerId"
+        secondary_auth_server_id: 
+          x-nullable: true
+          $ref: "#/components/schemas/AuthServerId"
+        primary_authorization_server_id: 
+          x-nullable: true
+          $ref: "#/components/schemas/AuthServerId"
+    ApplicationConfigEntity: 
+      type: "object"
+      properties: 
+        id: 
+          $ref: "#/components/schemas/ApplicationConfigId"
+        name: 
+          type: "string"
+        access_type: 
+          type: "string"
+          enum: 
+            - "application"
+            - "network"
+            - "saml"
+        resource_type: 
+          type: "string"
+          enum: 
+            - "fqdn"
+            - "url"
+            - "ipv4"
+            - "ipv6"
+            - "ipv4_range"
+            - "ipv6_range"
+        resource: 
+          type: "string"
+        bookmark_config: 
+          $ref: "#/components/schemas/Bookmark"
+        saml_config: 
+          $ref: "#/components/schemas/SamlEntity"
+    SamlEntity: 
+      type: "object"
+      properties: 
+        id: 
+          x-nullable: true
+          $ref: "#/components/schemas/SamlEntityId"
+        sp_metadata: 
+          x-nullable: true
+          type: "string"
+          description: "ThirdParty SaaS SP metadata xml in b64encoded format"
+    Bookmark: 
+      type: "object"
+      properties: 
+        id: 
+          x-nullable: true
+          $ref: "#/components/schemas/BookmarkId"
+        name: 
+          x-nullable: true
+          type: "string"
+        type: 
+          x-nullable: true
+          type: "string"
+          enum: 
+            - "web"
+            - "file"
+            - "ssh"
+        description: 
+          x-nullable: true
+          type: "string"
+        launch_window: 
+          x-nullable: true
+          type: "boolean"
+        url: 
+          x-nullable: true
+          type: "string"
+          description: "Destination URL of the resource/application"
+        icon: 
+          x-nullable: true
+          type: "string"
+          description: "URL to fetch the bookmark icon"
+    resources: 
+      type: "object"
+      properties: 
+        items: 
+          type: "array"
+          items: 
+            $ref: "#/components/schemas/ResourceEntity"
+    BookmarkId: 
+      description: "Id of Bookmark"
+      type: "string"
+      format: "uuid"
+    SignInPolicyId: 
+      description: "Id of Sign-in Policy Resource"
+      type: "string"
+      format: "uuid"
+    SamlEntityId: 
+      description: "Id of SamlEntity"
+      type: "string"
+      format: "uuid"
+    ApplicationId: 
+      type: "string"
+      format: "uuid"
+    ApplicationConfigId: 
+      type: "string"
+      format: "uuid"
+    AuthServerId: 
+      type: "string"
+      format: "uuid"
+    RoleMappingRuleId: 
+      type: "string"
+      format: "uuid"
+    ResourceId: 
+      type: "string"
+      format: "uuid"
+    RoleMappingRuleType: 
+      type: "string"
+      enum: 
+        - "username"
+        - "certificate"
+        - "custom"
+    RoleMappingRuleEntity: 
+      type: "object"
+      properties: 
+        id: 
+          $ref: "#/components/schemas/RoleMappingRuleId"
+        type: 
+          $ref: "#/components/schemas/RoleMappingRuleType"
+        name: 
+          type: "string"
+        attribute: 
+          type: "string"
+        value: 
+          type: "string"
+    RoleMappingRuleCollectionEntity: 
+      type: "object"
+      properties: 
+        items: 
+          type: "array"
+          items: 
+            $ref: "#/components/schemas/RoleMappingRuleEntity"

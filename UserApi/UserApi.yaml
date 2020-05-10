@@ -1,0 +1,180 @@
+openapi: 3.0.0
+info:
+  title: User Workspace Config API
+  version: '0.1'
+components:
+  schemas:
+    UserCreateEntity:
+      type: object
+      required:
+        - name
+        - workspaces
+      properties:
+        name:
+          type: string
+          description: user name
+        workspaces:
+          description: Workspace attributes. Only `type` is required for user creation.
+          $ref: 'UserApi/WorkspacedDeviceEntity.yaml'
+        location:
+          $ref: 'UserLocationEntity.yaml'
+    UserCreateResponseEntity:
+      $ref: 'UserApi/UserEntity.yaml'
+    UserCollectionEntity:
+      type: array
+      items:
+        $ref: 'UserApi/UserEntity.yaml'
+    UserLocationsEntity:
+      type: object
+      properties:
+        names:
+          type: array
+          description: Existing custom location names
+          items:
+            type: string
+    WorkspaceDeviceConfigCreateEntity:
+      allOf:
+        - $ref: 'UserApi/WorkspaceDeviceConfigBaseEntity.yaml'
+        - type: object
+          properties:
+            admin_password:
+              type: string
+              description: Admin password of the user
+    WorkspaceDeviceConfigEntity:
+      $ref: 'UserApi/WorkspaceDeviceConfigBaseEntity.yaml'
+    WorkspaceConfigCreateEntity:
+      type: object
+      properties:
+        device_config:
+          $ref: '#/components/schemas/WorkspaceDeviceConfigCreateEntity'
+    WorkspaceConfigEntity:
+      type: object
+      properties:
+        device_id:
+          $ref: 'UserApi/UserId.yaml'
+        device_config:
+          $ref: '#/components/schemas/WorkspaceDeviceConfigEntity'
+    WorkspaceConfigResponseEntity:
+      $ref: '#/components/schemas/WorkspaceConfigEntity'
+paths:
+  /api/users:
+    post:
+      summary: Create a user
+      operationId: dal.users.create_and_get
+      requestBody:
+        description: Parameters to define a new user.
+        content:
+          application/json:
+            schema:
+              x-body-name: user
+              $ref: '#/components/schemas/UserCreateEntity'
+            example:
+              name: test_user
+              workspaces_type: vsphere
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreateResponseEntity'
+              example:
+                id: d7d155ec-dee9-d771-e9fd-f84d62e6b59a
+                name: test_user
+                state: unregistered
+                created: '2020-03-12T06:51:50Z'
+                updated: '2020-03-12T06:51:50Z'
+                type: null
+                model: null
+                serial_number: null
+                device_version: null
+                sdp_mode: user
+                notification_channel_status: offline
+                workspaces:
+                  type: vsphere
+                  mode: manual
+        '409':
+          description: Duplicate user name
+    get:
+      summary: List all users.for a tenant
+      operationId: dal.users.get_all
+      responses:
+        '200':
+          description: Get a list of all Users for the tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCollectionEntity'
+  '/api/users/{user_id}':
+    get:
+      summary: Get details of a user by id
+      operationId: dal.users.get
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of User
+          required: true
+          schema:
+            $ref: 'UserApi/UserId.yaml'
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: 'UserApi/UserEntity.yaml'
+        '404':
+          description: User not found
+    delete:
+      summary: Delete a user
+      operationId: dal.users.delete
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of User
+          required: true
+          schema:
+            $ref: 'UserApi/UserId.yaml'
+      responses:
+        '204':
+          description: User deleted successfully
+  /api/users/locations:
+    get:
+      summary: >-
+        Get location info of the users. It returns a list of existing custom
+        name.
+      operationId: dal.users.get_locations
+      responses:
+        '200':
+          description: Retrieve location info successfully
+          content:
+            application/json:
+              schema:
+                $ref: 'UserApi/UserLocationsEntity.yaml'
+  '/api/users/{user_id}/workspaces':
+    post:
+      summary: Create user's workspaces config
+      operationId: dal.workspaces_config.create_and_get
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of User
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      requestBody:
+        description: Parameters to define user's workspaces config.
+        content:
+          application/json:
+            schema:
+              x-body-name: workspaces_config
+              $ref: '#/components/schemas/WorkspaceConfigCreateEntity'
+      responses:
+        '200':
+          description: User workspaces config created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceConfigResponseEntity'
+        '404':
+          description: Device ID is invalid.

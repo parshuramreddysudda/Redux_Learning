@@ -1,0 +1,379 @@
+openapi: 3.0.0
+info:
+  title: User Workspace Config API
+  version: '0.1'
+components:
+  schemas:
+    UserId:
+      type: string
+      format: uuid
+      description: Unique device identifier hex uuid string
+      example: e274bf3ebe3841a88ade1630515624c6
+    UserCreateEntity:
+      type: object
+      required:
+        - name
+        - workspaces
+      properties:
+        name:
+          type: string
+          description: user name
+        workspaces:
+          description: Workspace attributes. Only `type` is required for user creation.
+          $ref: '#/components/schemas/WorkspacedDeviceEntity'
+        location:
+          $ref: '#/components/schemas/UserLocationEntity'
+    UserCreateResponseEntity:
+      $ref: '#/components/schemas/UserEntity'
+    UserEntity:
+      type: object
+      required:
+        - id
+        - name
+        - state
+        - created
+        - updated
+        - type
+        - model
+        - serial_number
+        - device_version
+        - notification_channel_status
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        name:
+          type: string
+          description: Device name
+        state:
+          type: string
+          description: Device state
+          enum:
+            - unregistered
+            - registered
+            - deleted
+        created:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is created
+        updated:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is updated
+        type:
+          type: string
+          description: Device type
+          nullable: true
+        model:
+          type: string
+          description: Device model
+          nullable: true
+        serial_number:
+          type: string
+          description: Device serial number
+          nullable: true
+        device_version:
+          type: string
+          description: Device version
+          nullable: true
+        sdp_mode:
+          type: string
+          description: Device SDP mode
+          enum:
+            - pzt-user
+          nullable: true
+        location:
+          $ref: '#/components/schemas/UserLocationEntity'
+        notification_channel_status:
+          type: string
+          description: Status of the notification channel
+          enum:
+            - online
+            - offline
+          nullable: true
+        workspaces:
+          $ref: '#/components/schemas/WorkspacedDeviceEntity'
+        external_ip:
+          type: string
+          nullable: true
+          description: External IP address of the user
+        external_fqdn:
+          type: string
+          description: External FQDN address of the user
+        public_ip:
+          type: string
+          description: Public IP address of the user
+    WorkspacedDeviceEntity:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: >-
+            workspaces type of the device. If type is not presented, the user is
+            not workspaced.
+          enum:
+            - ios
+            - android
+            - windows
+        mode:
+          type: string
+          description: workspaces mode of the device
+          enum:
+            - auto
+            - manual
+          nullable: true
+        state:
+          type: string
+          description: workspaces state of the device
+          enum:
+            - waiting-to-create
+            - waiting-to-update
+            - waiting-to-start
+            - waiting-to-stop
+            - waiting-to-destroy
+            - creating
+            - updating
+            - paused
+            - starting
+            - started
+            - stopping
+            - destroying
+            - destroyed
+            - failed-to-create
+            - failed-to-destroy
+            - waiting-on-certificate
+            - configuring
+            - configured
+          nullable: true
+    UserCollectionEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserEntity'
+    UserLocationEntity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Custom name of the location
+          nullable: true
+    UserLocationsEntity:
+      type: object
+      properties:
+        names:
+          type: array
+          description: Existing custom location names
+          items:
+            type: string
+    WorkspaceDeviceConfigBaseEntity:
+      type: object
+      properties:
+        admin_username:
+          type: string
+          description: Admin username of the user
+        internal_fqdn:
+          type: string
+          description: Internal FQDN of the user
+        external_fqdn:
+          type: string
+          description: External FQDN of the user
+        management_fqdn:
+          type: string
+          description: Management FQDN of the user
+        company_name:
+          type: string
+          description: Company name of the user
+        primary_dns:
+          type: string
+          description: Primary DNS of the user
+        secondary_dns:
+          type: string
+          description: Secondary DNS of the user
+        private_domain_name:
+          type: string
+          description: Private Domain name of the user
+        public_domain_name:
+          type: string
+          description: Public domain name of the user
+        management_domain_name:
+          type: string
+          description: Management domain name of the user
+        internal_ip_address:
+          type: string
+          description: Internal IP address of the user
+        internal_subnet:
+          type: string
+          description: Internal subnet of the user
+        internal_user:
+          type: string
+          description: Internal user of the user
+        external_ip_address:
+          type: string
+          description: External IP address of the user
+        external_subnet:
+          type: string
+          description: External subnet of the user
+        external_user:
+          type: string
+          description: External user of the user
+        management_ip_address:
+          type: string
+          description: Management IP address of the user
+        public_ip_address:
+          type: string
+          description: The IP address for which a DNS record will be created
+        management_subnet:
+          type: string
+          description: Mangement subnet of the user
+        management_user:
+          type: string
+          description: Mangement user of the user
+        dns_search_domain:
+          type: string
+          description: User's DNS search domain.
+    WorkspaceDeviceConfigCreateEntity:
+      allOf:
+        - $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
+        - type: object
+          properties:
+            admin_password:
+              type: string
+              description: Admin password of the user
+    WorkspaceDeviceConfigEntity:
+      $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
+    WorkspaceConfigCreateEntity:
+      type: object
+      properties:
+        device_config:
+          $ref: '#/components/schemas/WorkspaceDeviceConfigCreateEntity'
+    WorkspaceConfigEntity:
+      type: object
+      properties:
+        device_id:
+          $ref: '#/components/schemas/UserId'
+        device_config:
+          $ref: '#/components/schemas/WorkspaceDeviceConfigEntity'
+    WorkspaceConfigResponseEntity:
+      $ref: '#/components/schemas/WorkspaceConfigEntity'
+paths:
+  /api/users:
+    post:
+      summary: Create a user
+      operationId: dal.users.create_and_get
+      requestBody:
+        description: Parameters to define a new user.
+        content:
+          application/json:
+            schema:
+              x-body-name: user
+              $ref: '#/components/schemas/UserCreateEntity'
+            example:
+              name: test_user
+              workspaces_type: vsphere
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreateResponseEntity'
+              example:
+                id: d7d155ec-dee9-d771-e9fd-f84d62e6b59a
+                name: test_user
+                state: unregistered
+                created: '2020-03-12T06:51:50Z'
+                updated: '2020-03-12T06:51:50Z'
+                type: null
+                model: null
+                serial_number: null
+                device_version: null
+                sdp_mode: user
+                notification_channel_status: offline
+                workspaces:
+                  type: vsphere
+                  mode: manual
+        '409':
+          description: Duplicate user name
+    get:
+      summary: List all users.for a tenant
+      operationId: dal.users.get_all
+      responses:
+        '200':
+          description: Get a list of all Users for the tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCollectionEntity'
+  '/api/users/{user_id}':
+    get:
+      summary: Get details of a user by id
+      operationId: dal.users.get
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of User
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserEntity'
+        '404':
+          description: User not found
+    delete:
+      summary: Delete a user
+      operationId: dal.users.delete
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of User
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      responses:
+        '204':
+          description: User deleted successfully
+  /api/users/locations:
+    get:
+      summary: >-
+        Get location info of the users. It returns a list of existing custom
+        name.
+      operationId: dal.users.get_locations
+      responses:
+        '200':
+          description: Retrieve location info successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLocationsEntity'
+  '/api/users/{user_id}/workspaces':
+    post:
+      summary: Create user's workspaces config
+      operationId: dal.workspaces_config.create_and_get
+      parameters:
+        - name: user_id
+          in: path
+          description: Id of User
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      requestBody:
+        description: Parameters to define user's workspaces config.
+        content:
+          application/json:
+            schema:
+              x-body-name: workspaces_config
+              $ref: '#/components/schemas/WorkspaceConfigCreateEntity'
+      responses:
+        '200':
+          description: User workspaces config created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceConfigResponseEntity'
+        '404':
+          description: Device ID is invalid.

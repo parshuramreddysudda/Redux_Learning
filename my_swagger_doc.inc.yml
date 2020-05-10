@@ -1,0 +1,65 @@
+## --------------------
+## DON'T EDIT THIS FILE
+## --------------------
+## Engine: yamlinc@0.1.10
+## Source: my_swagger_doc.yml
+
+version: '2.0'
+tags:
+  - FirstTag
+  - SecondTag
+paths:
+  /api/me:
+    get: ...
+  /api/you:
+    post: ...
+  cloud:
+    name: RegionTwo
+    description: ICOS Hybrid - Controller + N Compute Topology - x86 KVM
+    password: null
+    password_file: YOUR_PASSWORD_FILE
+    database_service_type: db2
+    messaging_service_type: rabbitmq
+    features:
+      self_service_portal: disabled
+      platform_resource_scheduler: enabled
+      icos_hybrid_cloud: enabled
+      fips_compliance: enabled
+    topology:
+      database_node_name: controller
+      controller_node_name: controller
+      self_service_portal_node_name: null
+      kvm_compute_node_names: kvm_compute
+  environment:
+    base: example-ibm-os-single-controller-n-compute
+    default_attributes: null
+    override_attributes:
+      ntp.servers:
+        - 0.pool.ntp.org
+        - 1.pool.ntp.org
+        - 2.pool.ntp.org
+        - 3.pool.ntp.org
+  hybrid:
+    keystone_endpoint_host: 192.168.101.10
+    admin_tenant_name: on-prem-admin
+    admin_user: admin-on-prem
+    off_prem_certificate_chain_file: YOUR_OFF_PREM_CERTIFICATE_CHAIN_FILE_LOCAL_LOCATION
+  nodes:
+    - name: controller
+      description: Cloud controller node
+      fqdn: YOUR_CONTROLLER_NODE_FQDN
+      password: null
+      identity_file: null
+      nics:
+        management_network: eth0
+        data_network: eth1
+      attribute_file: null
+    - name: kvm_compute
+      description: Cloud KVM compute node
+      fqdn: YOUR_KVM_COMPUTE_NODE_FQDN
+      password: null
+      identity_file: null
+      nics:
+        management_network: eth0
+        data_network: eth1
+      attribute_file: null

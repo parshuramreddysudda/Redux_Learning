@@ -1,0 +1,44 @@
+    WorkspacedDeviceEntity:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: >-
+            workspaces type of the device. If type is not presented, the user is
+            not workspaced.
+          enum:
+            - ios
+            - android
+            - windows
+        mode:
+          type: string
+          description: workspaces mode of the device
+          enum:
+            - auto
+            - manual
+          nullable: true
+        state:
+          type: string
+          description: workspaces state of the device
+          enum:
+            - waiting-to-create
+            - waiting-to-update
+            - waiting-to-start
+            - waiting-to-stop
+            - waiting-to-destroy
+            - creating
+            - updating
+            - paused
+            - starting
+            - started
+            - stopping
+            - destroying
+            - destroyed
+            - failed-to-create
+            - failed-to-destroy
+            - waiting-on-certificate
+            - configuring
+            - configured
+          nullable: true

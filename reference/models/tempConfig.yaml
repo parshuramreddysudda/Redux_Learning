@@ -1,0 +1,39 @@
+title: Flight
+type: object
+properties:
+  - flight1:
+    type: string
+    enum:
+      - AIR_ASIA
+      - AIR_CARNIVAL
+    codeNumber1:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  - flight2:
+    type: string
+    enum:
+      - AIR_ASIA
+    codeNumber2:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+
+  - flight3:
+    type: string
+    enum:
+      - AIR_ASIA
+    codeNumber3:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+
+  - flight5:
+    type: string
+    enum:
+      - AIR_ASIA
+    codeNumber5:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  

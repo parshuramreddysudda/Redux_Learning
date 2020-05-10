@@ -1,0 +1,5 @@
+UserId:
+      type: string
+      format: uuid
+      description: Unique device identifier hex uuid string
+      example: e274bf3ebe3841a88ade1630515624c6

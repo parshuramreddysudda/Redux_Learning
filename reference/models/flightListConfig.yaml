@@ -1,0 +1,144 @@
+title: Flight
+type: object
+properties:
+  flight1:
+    type: string
+    enum:
+      - AIR_ASIA
+      - AIR_CARNIVAL
+      - AIR_INDIA
+      - Wright_Flyer
+      - Learjet
+      - Lockheed
+      - Douglas
+      - Cessna
+      - Boeing
+      - Lockheed  
+      - Cirrus
+      - QUIK_LIFT
+      - Lufthansa
+      - Singapore
+      - GO_AIR
+      - ATAR_AIR
+      - JAGSON
+      - AIR_BALTIC
+      - BlUE_AIR
+      - DRUK_AIR
+      - EMIRATES
+  codeNumber1:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  flight2:
+    type: string
+    enum:
+      - AIR_ASIA
+      - AIR_CARNIVAL
+      - AIR_INDIA
+      - Wright_Flyer
+      - Learjet
+      - Lockheed
+      - Douglas
+      - Cessna
+      - Boeing
+      - Lockheed SR
+      - Cirrus
+      - QUIK_LIFT
+      - Lufthansa
+      - Singapore
+      - GO_AIR
+      - ATAR_AIR
+      - JAGSON
+      - AIR_BALTIC
+      - BlUE_AIR
+      - DRUK_AIR
+      - EMIRATES
+  codeNumber2:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  flight3:
+    type: string
+    enum:
+      - AIR_ASIA
+      - AIR_CARNIVAL
+      - AIR_INDIA
+      - Wright_Flyer
+      - Learjet
+      - Lockheed
+      - Douglas
+      - Cessna
+      - Boeing
+      - Lockheed SR-
+      - Cirrus
+      - QUIK_LIFT
+      - Lufthansa
+      - Singapore
+      - GO_AIR
+      - ATAR_AIR
+      - JAGSON
+      - AIR_BALTIC
+      - BlUE_AIR
+      - DRUK_AIR
+      - EMIRATES
+  codeNumber3:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  flight4:
+    type: string
+    enum:
+      - AIR_ASIA
+      - AIR_CARNIVAL
+      - AIR_INDIA
+      - Wright_Flyer
+      - Learjet
+      - Lockheed
+      - Douglas
+      - Cessna
+      - Boeing
+      - Lockheed SR-
+      - Cirrus
+      - QUIK_LIFT
+      - Lufthansa
+      - Singapore_Airlines
+      - GO_AIR
+      - ATAR_AIR
+      - JAGSON
+      - AIR_BALTIC
+      - BlUE_AIR
+      - DRUK_AIR
+      - EMIRATES
+  codeNumber4:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  flight5:
+    type: string
+    enum:
+      - AIR_ASIA
+      - AIR_CARNIVAL
+      - AIR_INDIA
+      - Wright_Flyer
+      - Learjet
+      - Lockheed
+      - Douglas
+      - Cessna
+      - Boeing
+      - Lockheed SR
+      - Cirrus
+      - QUIK_LIFT
+      - Lufthansa
+      - Singapore
+      - GO_AIR
+      - ATAR_AIR
+      - JAGSON
+      - AIR_BALTIC
+      - BlUE_AIR
+      - DRUK_AIR
+      - EMIRATES
+  codeNumber5:
+    type: string
+    example: F2GLK5
+    pattern: '^[A-Z][1-9][A-Z][A-Z][A-Z][1-9]$'
+  

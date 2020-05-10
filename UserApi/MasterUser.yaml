@@ -1,0 +1,8 @@
+
+$include : UserApi.yaml
+$include : UserEntity.yaml
+$include : UserId.yaml
+$include : UserLocationEntity.yaml
+$include : WorkspacedDeviceEntity.yaml
+$include : WorkspaceDeviceConfigBaseEntity.yaml
+$include : UserEntity.yaml

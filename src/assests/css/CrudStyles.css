@@ -1,0 +1,15 @@
+.table {
+    min-width:  650;
+  }
+
+  .paper{
+      padding: 10px;
+      text-align: center;
+
+  }
+  .modal {
+    display: 'flex';
+    padding: 10px;
+    align-items :'center';
+    justify-content: 'center';
+  }

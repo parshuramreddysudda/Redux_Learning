@@ -1,0 +1,77 @@
+UserEntity:
+      type: object
+      required:
+        - id
+        - name
+        - state
+        - created
+        - updated
+        - type
+        - model
+        - serial_number
+        - device_version
+        - notification_channel_status
+      properties:
+        id:
+          $ref: 'UserApi/UserId.yaml'
+        name:
+          type: string
+          description: Device name
+        state:
+          type: string
+          description: Device state
+          enum:
+            - unregistered
+            - registered
+            - deleted
+        created:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is created
+        updated:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is updated
+        type:
+          type: string
+          description: Device type
+          nullable: true
+        model:
+          type: string
+          description: Device model
+          nullable: true
+        serial_number:
+          type: string
+          description: Device serial number
+          nullable: true
+        device_version:
+          type: string
+          description: Device version
+          nullable: true
+        sdp_mode:
+          type: string
+          description: Device SDP mode
+          enum:
+            - pzt-user
+          nullable: true
+        location:
+          $ref: 'UserLocationEntity.yaml'
+        notification_channel_status:
+          type: string
+          description: Status of the notification channel
+          enum:
+            - online
+            - offline
+          nullable: true
+        workspaces:
+          $ref: 'WorkspacedDeviceEntity.yaml'
+        external_ip:
+          type: string
+          nullable: true
+          description: External IP address of the user
+        external_fqdn:
+          type: string
+          description: External FQDN address of the user
+        public_ip:
+          type: string
+          description: Public IP address of the user

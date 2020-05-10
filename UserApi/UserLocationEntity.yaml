@@ -1,0 +1,7 @@
+    UserLocationEntity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Custom name of the location
+          nullable: true

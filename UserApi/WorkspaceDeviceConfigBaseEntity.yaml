@@ -1,0 +1,66 @@
+    WorkspaceDeviceConfigBaseEntity:
+      type: object
+      properties:
+        admin_username:
+          type: string
+          description: Admin username of the user
+        internal_fqdn:
+          type: string
+          description: Internal FQDN of the user
+        external_fqdn:
+          type: string
+          description: External FQDN of the user
+        management_fqdn:
+          type: string
+          description: Management FQDN of the user
+        company_name:
+          type: string
+          description: Company name of the user
+        primary_dns:
+          type: string
+          description: Primary DNS of the user
+        secondary_dns:
+          type: string
+          description: Secondary DNS of the user
+        private_domain_name:
+          type: string
+          description: Private Domain name of the user
+        public_domain_name:
+          type: string
+          description: Public domain name of the user
+        management_domain_name:
+          type: string
+          description: Management domain name of the user
+        internal_ip_address:
+          type: string
+          description: Internal IP address of the user
+        internal_subnet:
+          type: string
+          description: Internal subnet of the user
+        internal_user:
+          type: string
+          description: Internal user of the user
+        external_ip_address:
+          type: string
+          description: External IP address of the user
+        external_subnet:
+          type: string
+          description: External subnet of the user
+        external_user:
+          type: string
+          description: External user of the user
+        management_ip_address:
+          type: string
+          description: Management IP address of the user
+        public_ip_address:
+          type: string
+          description: The IP address for which a DNS record will be created
+        management_subnet:
+          type: string
+          description: Mangement subnet of the user
+        management_user:
+          type: string
+          description: Mangement user of the user
+        dns_search_domain:
+          type: string
+          description: User's DNS search domain.

@@ -1,0 +1,8 @@
+ UserLocationsEntity:
+      type: object
+      properties:
+        names:
+          type: array
+          description: Existing custom location names
+          items:
+            type: string

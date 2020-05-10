@@ -1,0 +1,6 @@
+paths:
+  /api/me:
+    get: ...      
+  /api/you:
+    post: ...
+  $include: others-paths.yml
