@@ -15,7 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import UserModel from './Components/User'
+import OneUser from './Components/User'
 import Button from '@material-ui/core/Button';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
@@ -55,24 +55,8 @@ export default class Crud extends React.Component {
 
   }
 
-
-  // getAllUsers() {
-  //   this.setState({ isLoading: false })
-  //   MainServices.getAllUsers().then(response => {
-  //     this.setState({ users: response.data })
-  //   }).finally(
-  //     this.setState({ isLoading: true })
-  //   )
-  // }
-
-
-
   resetData() {
-
     this.props.resetUsers();
-    // this.setState({ user: [] })
-    // console.log("Cleared", this.state.users)
-
   }
   
   deleteOpenSnak(desc) {
@@ -84,27 +68,36 @@ export default class Crud extends React.Component {
   }
   componentDidMount() {
     
-    this.props.fetchUsers().then(()=>{
+    this.props.fetchUsers();
+    
+    /* .then(()=>{
       let updatingUser=this.props.users[0];
       updatingUser.state='telanagana'
       console.log(updatingUser)
       this.updateUser(updatingUser);
-    });
+    });*/
 
   }
+  componentWillUnmount() {
+    this.setState = (state,callback)=>{
+      return;
+  };
+  }
+  
   updateUser(updateUser){
     this.props.updateUser(updateUser,updateUser.id)
   }
   handleEdit(id) {
+    
     this.setState({ editUser: id })
     this.setState({ modalButton: true })
     this.setState({ editUserCount: this.state.editUserCount + 1 })
   }
   handleOneUser(id) {
 
-    // this.setState({ oneUser: id })
-    // this.setState({ userButton: true })
-    // this.setState({ showUserCount: this.state.showUserCount + 1 })
+    this.setState({ oneUser: id })
+    this.setState({ userButton: true })
+    this.setState({ showUserCount: this.state.showUserCount + 1 })
   }
   createUser() {
     // this.setState({ createButton: true });
@@ -183,7 +176,7 @@ export default class Crud extends React.Component {
                   <br></br>
                   <Grid container spacing={3} direction="row" justify="center" alignItems="center" >
                     <Grid item xs={6} sm={3}>
-                      <Paper className="paper"> <Button onClick={fetchUsers}>Request New Data</Button></Paper>
+                      <Paper className="paper"> <Button onClick={()=>fetchUsers}>Request New Data</Button></Paper>
                     </Grid>
                     <Grid item xs={6} sm={3}>
                       <Paper className='paper'>    <Button color="primary" onClick={this.resetData}>ClearAll Data</Button></Paper>
@@ -193,14 +186,15 @@ export default class Crud extends React.Component {
                   {/* <SnackBar show={this.state.deleteSnakOpen} closeSnak={this.closeSnak} snakType="error" desc={this.state.snakDesc} /> */}
       
                   <EditModel 
-                  user={this.state.editUser}
+                   user={this.state.editUser}
+                   users={this.props.users.filter(user=>this.state.editUser==user.id)}
                    count={this.state.editUserCount} 
                    Open={this.state.modalButton}
                    updateUser={this.updateUser}
                    ></EditModel>
                   
                   {/* <CreateUser Open={this.state.createButton} count={this.state.createUserCount} closeModel={this.closeCreateUser}> </CreateUser> */}
-                  {/* <UserModel user={this.state.oneUser} count={this.state.showUserCount} Open={this.state.userButton}  ></UserModel> */}
+                  <OneUser user={this.state.oneUser} count={this.state.showUserCount} Open={this.state.userButton}  ></OneUser>
                   {/* <Delete count={this.state.confirmDeleteCount} delete={this.deleteUserfromId} user={this.state.oneUser} ></Delete> */}
                 </Container> 
         
