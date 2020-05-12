@@ -1,3 +1,2 @@
-$include : ./models/openapi.yaml
-$include : ./models/flightList.yaml
+$include : ./models/users.yaml
 $include : ./models/applications.yaml

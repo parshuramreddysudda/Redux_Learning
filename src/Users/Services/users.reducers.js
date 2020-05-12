@@ -94,7 +94,6 @@ const usersReducer = (state = initialState, action) => {
       };
 
     case 'CREATE_USERS_SUCCESS':
-      console.log("Params fro Create user",action.payload.params)
       return {
         ...state,
         items: [...state.items,action.payload.params]

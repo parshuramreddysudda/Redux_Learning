@@ -1,16 +1,16 @@
 
   openapi: "3.0.0"
   info: 
-    title: "Application Workspace Config API"
+    title: "User Workspace Config API"
     version: "0.1"
   components: 
     schemas: 
-      ApplicationId: 
+      UserId: 
         type: "string"
         format: "uuid"
         description: "Unique device identifier hex uuid string"
         example: "e274bf3ebe3841a88ade1630515624c6"
-      ApplicationCreateEntity: 
+      UserCreateEntity: 
         type: "object"
         required: 
           - "name"
@@ -18,13 +18,13 @@
         properties: 
           name: 
             type: "string"
-            description: "Application name"
+            description: "user name"
           workspaces: 
-            description: "Workspace attributes. Only type is required for Application creation."
+            description: "Workspace attributes. Only type is required for user creation."
             $ref: "#/components/schemas/WorkspacedDeviceEntity"
           location: 
-            $ref: "#/components/schemas/ApplicationLocationEntity"
-      ApplicationUpdateEntity: 
+            $ref: "#/components/schemas/UserLocationEntity"
+      UserUpdateEntity: 
         type: "object"
         required: 
           - "name"
@@ -32,17 +32,17 @@
         properties: 
           name: 
             type: "string"
-            description: "Application name"
+            description: "user name"
           workspaces: 
-            description: "Workspace attributes. Only type is required for Application creation."
+            description: "Workspace attributes. Only type is required for user creation."
             $ref: "#/components/schemas/WorkspacedDeviceEntity"
           location: 
-            $ref: "#/components/schemas/ApplicationLocationEntity"
-      ApplicationCreateResponseEntity: 
-        $ref: "#/components/schemas/ApplicationEntity"
-      ApplicationUpdateResponseEntity: 
-        $ref: "#/components/schemas/ApplicationEntity"
-      ApplicationEntity: 
+            $ref: "#/components/schemas/UserLocationEntity"
+      UserCreateResponseEntity: 
+        $ref: "#/components/schemas/UserEntity"
+      UserUpdateResponseEntity: 
+        $ref: "#/components/schemas/UserEntity"
+      UserEntity: 
         type: "object"
         required: 
           - "id"
@@ -53,7 +53,7 @@
           - "type"
         properties: 
           id: 
-            $ref: "#/components/schemas/ApplicationId"
+            $ref: "#/components/schemas/UserId"
           name: 
             type: "string"
             description: "Device name"
@@ -83,7 +83,7 @@
         properties: 
           type: 
             type: "string"
-            description: "workspaces type of the device. If type is not presented, the Application is not workspaced."
+            description: "workspaces type of the device. If type is not presented, the user is not workspaced."
             enum: 
               - "ios"
               - "android"
@@ -118,18 +118,18 @@
               - "configuring"
               - "configured"
             nullable: true
-      ApplicationCollectionEntity: 
+      UserCollectionEntity: 
         type: "array"
         items: 
-          $ref: "#/components/schemas/ApplicationEntity"
-      ApplicationLocationEntity: 
+          $ref: "#/components/schemas/UserEntity"
+      UserLocationEntity: 
         type: "object"
         properties: 
           name: 
             type: "string"
             description: "Custom name of the location"
             nullable: true
-      ApplicationLocationsEntity: 
+      UserLocationsEntity: 
         type: "object"
         properties: 
           names: 
@@ -140,69 +140,69 @@
       WorkspaceDeviceConfigBaseEntity: 
         type: "object"
         properties: 
-          admin_Applicationname: 
+          admin_username: 
             type: "string"
-            description: "Admin Applicationname of the Application"
+            description: "Admin username of the user"
           internal_fqdn: 
             type: "string"
-            description: "Internal FQDN of the Application"
+            description: "Internal FQDN of the user"
           external_fqdn: 
             type: "string"
-            description: "External FQDN of the Application"
+            description: "External FQDN of the user"
           management_fqdn: 
             type: "string"
-            description: "Management FQDN of the Application"
+            description: "Management FQDN of the user"
           company_name: 
             type: "string"
-            description: "Company name of the Application"
+            description: "Company name of the user"
           primary_dns: 
             type: "string"
-            description: "Primary DNS of the Application"
+            description: "Primary DNS of the user"
           secondary_dns: 
             type: "string"
-            description: "Secondary DNS of the Application"
+            description: "Secondary DNS of the user"
           private_domain_name: 
             type: "string"
-            description: "Private Domain name of the Application"
+            description: "Private Domain name of the user"
           public_domain_name: 
             type: "string"
-            description: "Public domain name of the Application"
+            description: "Public domain name of the user"
           management_domain_name: 
             type: "string"
-            description: "Management domain name of the Application"
+            description: "Management domain name of the user"
           internal_ip_address: 
             type: "string"
-            description: "Internal IP address of the Application"
+            description: "Internal IP address of the user"
           internal_subnet: 
             type: "string"
-            description: "Internal subnet of the Application"
-          internal_Application: 
+            description: "Internal subnet of the user"
+          internal_user: 
             type: "string"
-            description: "Internal Application of the Application"
+            description: "Internal user of the user"
           external_ip_address: 
             type: "string"
-            description: "External IP address of the Application"
+            description: "External IP address of the user"
           external_subnet: 
             type: "string"
-            description: "External subnet of the Application"
-          external_Application: 
+            description: "External subnet of the user"
+          external_user: 
             type: "string"
-            description: "External Application of the Application"
+            description: "External user of the user"
           management_ip_address: 
             type: "string"
-            description: "Management IP address of the Application"
+            description: "Management IP address of the user"
           public_ip_address: 
             type: "string"
             description: "The IP address for which a DNS record will be created"
           management_subnet: 
             type: "string"
-            description: "Mangement subnet of the Application"
-          management_Application: 
+            description: "Mangement subnet of the user"
+          management_user: 
             type: "string"
-            description: "Mangement Application of the Application"
+            description: "Mangement user of the user"
           dns_search_domain: 
             type: "string"
-            description: "Application's DNS search domain."
+            description: "User's DNS search domain."
       WorkspaceDeviceConfigCreateEntity: 
         allOf: 
           - 
@@ -212,7 +212,7 @@
             properties: 
               admin_password: 
                 type: "string"
-                description: "Admin password of the Application"
+                description: "Admin password of the user"
       WorkspaceDeviceConfigEntity: 
         $ref: "#/components/schemas/WorkspaceDeviceConfigBaseEntity"
       WorkspaceConfigCreateEntity: 
@@ -224,36 +224,36 @@
         type: "object"
         properties: 
           device_id: 
-            $ref: "#/components/schemas/ApplicationId"
+            $ref: "#/components/schemas/UserId"
           device_config: 
             $ref: "#/components/schemas/WorkspaceDeviceConfigEntity"
       WorkspaceConfigResponseEntity: 
         $ref: "#/components/schemas/WorkspaceConfigEntity"
   paths: 
-    /api/Applications: 
+    /api/users: 
       post: 
-        summary: "Create a Application"
-        operationId: "dal.Applications.create_and_get"
+        summary: "Create a user"
+        operationId: "dal.users.create_and_get"
         requestBody: 
-          description: "Parameters to define a new Application."
+          description: "Parameters to define a new user."
           content: 
             application/json: 
               schema: 
-                x-body-name: "Application"
-                $ref: "#/components/schemas/ApplicationCreateEntity"
+                x-body-name: "user"
+                $ref: "#/components/schemas/UserCreateEntity"
               example: 
-                name: "test_Application"
+                name: "test_user"
                 workspaces_type: "vsphere"
         responses: 
           200: 
-            description: "Application created successfully"
+            description: "User created successfully"
             content: 
               application/json: 
                 schema: 
-                  $ref: "#/components/schemas/ApplicationCreateResponseEntity"
+                  $ref: "#/components/schemas/UserCreateResponseEntity"
                 example: 
                   id: "d7d155ec-dee9-d771-e9fd-f84d62e6b59a"
-                  name: "test_Application"
+                  name: "test_user"
                   state: "unregistered"
                   created: "2020-03-12T06:51:50Z"
                   updated: "2020-03-12T06:51:50Z"
@@ -261,75 +261,75 @@
                   model: null
                   serial_number: null
                   device_version: null
-                  sdp_mode: "Application"
+                  sdp_mode: "user"
                   notification_channel_status: "offline"
                   workspaces: 
                     type: "vsphere"
                     mode: "manual"
           409: 
-            description: "Duplicate Application name"
+            description: "Duplicate user name"
       get: 
-        summary: "List all Applications.for a tenant"
-        operationId: "dal.Applications.get_all"
+        summary: "List all users.for a tenant"
+        operationId: "dal.users.get_all"
         responses: 
           200: 
-            description: "Get a list of all Applications for the tenant."
+            description: "Get a list of all Users for the tenant."
             content: 
               application/json: 
                 schema: 
-                  $ref: "#/components/schemas/ApplicationCollectionEntity"
-    /api/Applications/{Application_id}: 
+                  $ref: "#/components/schemas/UserCollectionEntity"
+    /api/users/{user_id}: 
       get: 
-        summary: "Get details of a Application by id"
-        operationId: "dal.Applications.get"
+        summary: "Get details of a user by id"
+        operationId: "dal.users.get"
         parameters: 
           - 
-            name: "Application_id"
+            name: "user_id"
             in: "path"
-            description: "Id of Application"
+            description: "Id of User"
             required: true
             schema: 
-              $ref: "#/components/schemas/ApplicationId"
+              $ref: "#/components/schemas/UserId"
         responses: 
           200: 
-            description: "Application retrieved successfully"
+            description: "User retrieved successfully"
             content: 
               application/json: 
                 schema: 
-                  $ref: "#/components/schemas/ApplicationEntity"
+                  $ref: "#/components/schemas/UserEntity"
           404: 
-            description: "Application not found"
+            description: "User not found"
       put: 
-        summary: "Update a Application"
-        operationId: "dal.Applications.update"
+        summary: "Update a user"
+        operationId: "dal.users.update"
         parameters: 
           - 
-            name: "Application_id"
+            name: "user_id"
             in: "path"
-            description: "Id of Application"
+            description: "Id of User"
             required: true
             schema: 
-              $ref: "#/components/schemas/ApplicationId"
+              $ref: "#/components/schemas/UserId"
         requestBody: 
-          description: "Parameters to update a Application."
+          description: "Parameters to update a user."
           content: 
             application/json: 
               schema: 
-                x-body-name: "Application"
-                $ref: "#/components/schemas/ApplicationUpdateEntity"
+                x-body-name: "user"
+                $ref: "#/components/schemas/UserUpdateEntity"
               example: 
-                name: "test_Application"
+                name: "test_user"
                 workspaces_type: "vsphere"
         responses: 
           200: 
-            description: "Application updated successfully"
+            description: "User updated successfully"
             content: 
               application/json: 
                 schema: 
-                  $ref: "#/components/schemas/ApplicationUpdateResponseEntity"
+                  $ref: "#/components/schemas/UserUpdateResponseEntity"
                 example: 
                   id: "d7d155ec-dee9-d771-e9fd-f84d62e6b59a"
-                  name: "test_Application"
+                  name: "test_user"
                   state: "unregistered"
                   created: "2020-03-12T06:51:50Z"
                   updated: "2020-03-12T06:51:50Z"
@@ -337,52 +337,52 @@
                   model: null
                   serial_number: null
                   device_version: null
-                  sdp_mode: "Application"
+                  sdp_mode: "user"
                   notification_channel_status: "offline"
                   workspaces: 
                     type: "vsphere"
                     mode: "manual"
           409: 
-            description: "Duplicate Application name"
+            description: "Duplicate user name"
       delete: 
-        summary: "Delete a Application"
-        operationId: "dal.Applications.delete"
+        summary: "Delete a user"
+        operationId: "dal.users.delete"
         parameters: 
           - 
-            name: "Application_id"
+            name: "user_id"
             in: "path"
-            description: "Id of Application"
+            description: "Id of User"
             required: true
             schema: 
-              $ref: "#/components/schemas/ApplicationId"
+              $ref: "#/components/schemas/UserId"
         responses: 
           204: 
-            description: "Application deleted successfully"
-    /api/Applications/locations: 
+            description: "User deleted successfully"
+    /api/users/locations: 
       get: 
-        summary: "Get location info of the Applications. It returns a list of existing custom name."
-        operationId: "dal.Applications.get_locations"
+        summary: "Get location info of the users. It returns a list of existing custom name."
+        operationId: "dal.users.get_locations"
         responses: 
           200: 
             description: "Retrieve location info successfully"
             content: 
               application/json: 
                 schema: 
-                  $ref: "#/components/schemas/ApplicationLocationsEntity"
-    /api/Applications/{Application_id}/workspaces: 
+                  $ref: "#/components/schemas/UserLocationsEntity"
+    /api/users/{user_id}/workspaces: 
       post: 
-        summary: "Create Application's workspaces config"
+        summary: "Create user's workspaces config"
         operationId: "dal.workspaces_config.create_and_get"
         parameters: 
           - 
-            name: "Application_id"
+            name: "user_id"
             in: "path"
-            description: "Id of Application"
+            description: "Id of User"
             required: true
             schema: 
-              $ref: "#/components/schemas/ApplicationId"
+              $ref: "#/components/schemas/UserId"
         requestBody: 
-          description: "Parameters to define Application's workspaces config."
+          description: "Parameters to define user's workspaces config."
           content: 
             application/json: 
               schema: 
@@ -390,7 +390,7 @@
                 $ref: "#/components/schemas/WorkspaceConfigCreateEntity"
         responses: 
           200: 
-            description: "Application workspaces config created successfully"
+            description: "User workspaces config created successfully"
             content: 
               application/json: 
                 schema: 

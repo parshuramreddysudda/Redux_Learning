@@ -6,56 +6,371 @@
 
 openapi: 3.0.0
 info:
-  title: User Workspace Config API
+  title: Application Workspace Config API
   version: '0.1'
-servers:
-  - url: 'http://localhost:3000'
-  - url: 'http://localhost:3000'
+components:
+  schemas:
+    UserId:
+      type: string
+      format: uuid
+      description: Unique device identifier hex uuid string
+      example: e274bf3ebe3841a88ade1630515624c6
+    UserCreateEntity:
+      type: object
+      required:
+        - name
+        - workspaces
+      properties:
+        name:
+          type: string
+          description: user name
+        workspaces:
+          description: Workspace attributes. Only type is required for user creation.
+          $ref: '#/components/schemas/WorkspacedDeviceEntity'
+        location:
+          $ref: '#/components/schemas/UserLocationEntity'
+    UserUpdateEntity:
+      type: object
+      required:
+        - name
+        - workspaces
+      properties:
+        name:
+          type: string
+          description: user name
+        workspaces:
+          description: Workspace attributes. Only type is required for user creation.
+          $ref: '#/components/schemas/WorkspacedDeviceEntity'
+        location:
+          $ref: '#/components/schemas/UserLocationEntity'
+    UserCreateResponseEntity:
+      $ref: '#/components/schemas/UserEntity'
+    UserUpdateResponseEntity:
+      $ref: '#/components/schemas/UserEntity'
+    UserEntity:
+      type: object
+      required:
+        - id
+        - name
+        - state
+        - created
+        - updated
+        - type
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        name:
+          type: string
+          description: Device name
+        state:
+          type: string
+          description: Device state
+          enum:
+            - unregistered
+            - registered
+            - deleted
+        created:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is created
+        updated:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is updated
+        type:
+          type: string
+          description: Device type
+          nullable: true
+    WorkspacedDeviceEntity:
+      type: object
+      required:
+        - type
+        - type
+      properties:
+        type:
+          type: string
+          description: >-
+            workspaces type of the device. If type is not presented, the
+            Application is not workspaced.
+          enum:
+            - ios
+            - android
+            - windows
+            - ios
+            - android
+            - windows
+        mode:
+          type: string
+          description: workspaces mode of the device
+          enum:
+            - auto
+            - manual
+            - auto
+            - manual
+          nullable: true
+        state:
+          type: string
+          description: workspaces state of the device
+          enum:
+            - waiting-to-create
+            - waiting-to-update
+            - waiting-to-start
+            - waiting-to-stop
+            - waiting-to-destroy
+            - creating
+            - updating
+            - paused
+            - starting
+            - started
+            - stopping
+            - destroying
+            - destroyed
+            - failed-to-create
+            - failed-to-destroy
+            - waiting-on-certificate
+            - configuring
+            - configured
+            - waiting-to-create
+            - waiting-to-update
+            - waiting-to-start
+            - waiting-to-stop
+            - waiting-to-destroy
+            - creating
+            - updating
+            - paused
+            - starting
+            - started
+            - stopping
+            - destroying
+            - destroyed
+            - failed-to-create
+            - failed-to-destroy
+            - waiting-on-certificate
+            - configuring
+            - configured
+          nullable: true
+    UserCollectionEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserEntity'
+    UserLocationEntity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Custom name of the location
+          nullable: true
+    UserLocationsEntity:
+      type: object
+      properties:
+        names:
+          type: array
+          description: Existing custom location names
+          items:
+            type: string
+    WorkspaceDeviceConfigBaseEntity:
+      type: object
+      properties:
+        admin_username:
+          type: string
+          description: Admin username of the user
+        internal_fqdn:
+          type: string
+          description: Internal FQDN of the Application
+        external_fqdn:
+          type: string
+          description: External FQDN of the Application
+        management_fqdn:
+          type: string
+          description: Management FQDN of the Application
+        company_name:
+          type: string
+          description: Company name of the Application
+        primary_dns:
+          type: string
+          description: Primary DNS of the Application
+        secondary_dns:
+          type: string
+          description: Secondary DNS of the Application
+        private_domain_name:
+          type: string
+          description: Private Domain name of the Application
+        public_domain_name:
+          type: string
+          description: Public domain name of the Application
+        management_domain_name:
+          type: string
+          description: Management domain name of the Application
+        internal_ip_address:
+          type: string
+          description: Internal IP address of the Application
+        internal_subnet:
+          type: string
+          description: Internal subnet of the Application
+        internal_user:
+          type: string
+          description: Internal user of the user
+        external_ip_address:
+          type: string
+          description: External IP address of the Application
+        external_subnet:
+          type: string
+          description: External subnet of the Application
+        external_user:
+          type: string
+          description: External user of the user
+        management_ip_address:
+          type: string
+          description: Management IP address of the Application
+        public_ip_address:
+          type: string
+          description: The IP address for which a DNS record will be created
+        management_subnet:
+          type: string
+          description: Mangement subnet of the Application
+        management_user:
+          type: string
+          description: Mangement user of the user
+        dns_search_domain:
+          type: string
+          description: Application's DNS search domain.
+        admin_Applicationname:
+          type: string
+          description: Admin Applicationname of the Application
+        internal_Application:
+          type: string
+          description: Internal Application of the Application
+        external_Application:
+          type: string
+          description: External Application of the Application
+        management_Application:
+          type: string
+          description: Mangement Application of the Application
+    WorkspaceDeviceConfigCreateEntity:
+      allOf:
+        - $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
+        - type: object
+          properties:
+            admin_password:
+              type: string
+              description: Admin password of the user
+        - $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
+        - type: object
+          properties:
+            admin_password:
+              type: string
+              description: Admin password of the Application
+    WorkspaceDeviceConfigEntity:
+      $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
+    WorkspaceConfigCreateEntity:
+      type: object
+      properties:
+        device_config:
+          $ref: '#/components/schemas/WorkspaceDeviceConfigCreateEntity'
+    WorkspaceConfigEntity:
+      type: object
+      properties:
+        device_id:
+          $ref: '#/components/schemas/ApplicationId'
+        device_config:
+          $ref: '#/components/schemas/WorkspaceDeviceConfigEntity'
+    WorkspaceConfigResponseEntity:
+      $ref: '#/components/schemas/WorkspaceConfigEntity'
+    ApplicationId:
+      type: string
+      format: uuid
+      description: Unique device identifier hex uuid string
+      example: e274bf3ebe3841a88ade1630515624c6
+    ApplicationCreateEntity:
+      type: object
+      required:
+        - name
+        - workspaces
+      properties:
+        name:
+          type: string
+          description: Application name
+        workspaces:
+          description: >-
+            Workspace attributes. Only type is required for Application
+            creation.
+          $ref: '#/components/schemas/WorkspacedDeviceEntity'
+        location:
+          $ref: '#/components/schemas/ApplicationLocationEntity'
+    ApplicationUpdateEntity:
+      type: object
+      required:
+        - name
+        - workspaces
+      properties:
+        name:
+          type: string
+          description: Application name
+        workspaces:
+          description: >-
+            Workspace attributes. Only type is required for Application
+            creation.
+          $ref: '#/components/schemas/WorkspacedDeviceEntity'
+        location:
+          $ref: '#/components/schemas/ApplicationLocationEntity'
+    ApplicationCreateResponseEntity:
+      $ref: '#/components/schemas/ApplicationEntity'
+    ApplicationUpdateResponseEntity:
+      $ref: '#/components/schemas/ApplicationEntity'
+    ApplicationEntity:
+      type: object
+      required:
+        - id
+        - name
+        - state
+        - created
+        - updated
+        - type
+      properties:
+        id:
+          $ref: '#/components/schemas/ApplicationId'
+        name:
+          type: string
+          description: Device name
+        state:
+          type: string
+          description: Device state
+          enum:
+            - unregistered
+            - registered
+            - deleted
+        created:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is created
+        updated:
+          type: string
+          format: date-time
+          description: UTC RFC 3339 timestamp of when device is updated
+        type:
+          type: string
+          description: Device type
+          nullable: true
+    ApplicationCollectionEntity:
+      type: array
+      items:
+        $ref: '#/components/schemas/ApplicationEntity'
+    ApplicationLocationEntity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Custom name of the location
+          nullable: true
+    ApplicationLocationsEntity:
+      type: object
+      properties:
+        names:
+          type: array
+          description: Existing custom location names
+          items:
+            type: string
 paths:
-  /flights:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              examples:
-                checked-in-passenger:
-                  value:
-                    barcodeData: s0m3numb3r5
-                    checkedInStatus: CHECKED_IN
-                    seatNumber: A3
-                    seatName: SIDE_BIRTH
-                    flightName: AIR_INDIA
-                    ticketNum: F2GLK5
-              schema:
-                $ref: ./reference/models/flight.v1.yaml
-  /flightLists:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              examples:
-                checked-in-passenger:
-                  value:
-                    flight1: AIR_INDIA1
-                    codeNumber1: F2GLK5
-                    flight2: AIR_INDIA2
-                    codeNumber2: F2GLK5
-                    flight3: AIR_INDIA3
-                    codeNumber3: F2GLK5
-                    flight4: AIR_INDIA4
-                    codeNumber4: F2GLK5
-                    flight5: AIR_INDIA5
-                    codeNumber5: F2GLK5
-              schema:
-                $ref: /reference/models/flightListConfig.yaml
   /api/users:
     post:
       summary: Create a user
@@ -221,229 +536,168 @@ paths:
                 $ref: '#/components/schemas/WorkspaceConfigResponseEntity'
         '404':
           description: Device ID is invalid.
-components:
-  schemas:
-    UserId:
-      type: string
-      format: uuid
-      description: Unique device identifier hex uuid string
-      example: e274bf3ebe3841a88ade1630515624c6
-    UserCreateEntity:
-      type: object
-      required:
-        - name
-        - workspaces
-      properties:
-        name:
-          type: string
-          description: user name
-        workspaces:
-          description: Workspace attributes. Only type is required for user creation.
-          $ref: '#/components/schemas/WorkspacedDeviceEntity'
-        location:
-          $ref: '#/components/schemas/UserLocationEntity'
-    UserUpdateEntity:
-      type: object
-      required:
-        - name
-        - workspaces
-      properties:
-        name:
-          type: string
-          description: user name
-        workspaces:
-          description: Workspace attributes. Only type is required for user creation.
-          $ref: '#/components/schemas/WorkspacedDeviceEntity'
-        location:
-          $ref: '#/components/schemas/UserLocationEntity'
-    UserCreateResponseEntity:
-      $ref: '#/components/schemas/UserEntity'
-    UserUpdateResponseEntity:
-      $ref: '#/components/schemas/UserEntity'
-    UserEntity:
-      type: object
-      required:
-        - id
-        - name
-        - state
-        - created
-        - updated
-        - type
-      properties:
-        id:
-          $ref: '#/components/schemas/UserId'
-        name:
-          type: string
-          description: Device name
-        state:
-          type: string
-          description: Device state
-          enum:
-            - unregistered
-            - registered
-            - deleted
-        created:
-          type: string
-          format: date-time
-          description: UTC RFC 3339 timestamp of when device is created
-        updated:
-          type: string
-          format: date-time
-          description: UTC RFC 3339 timestamp of when device is updated
-        type:
-          type: string
-          description: Device type
-          nullable: true
-    WorkspacedDeviceEntity:
-      type: object
-      required:
-        - type
-      properties:
-        type:
-          type: string
-          description: >-
-            workspaces type of the device. If type is not presented, the user is
-            not workspaced.
-          enum:
-            - ios
-            - android
-            - windows
-        mode:
-          type: string
-          description: workspaces mode of the device
-          enum:
-            - auto
-            - manual
-          nullable: true
-        state:
-          type: string
-          description: workspaces state of the device
-          enum:
-            - waiting-to-create
-            - waiting-to-update
-            - waiting-to-start
-            - waiting-to-stop
-            - waiting-to-destroy
-            - creating
-            - updating
-            - paused
-            - starting
-            - started
-            - stopping
-            - destroying
-            - destroyed
-            - failed-to-create
-            - failed-to-destroy
-            - waiting-on-certificate
-            - configuring
-            - configured
-          nullable: true
-    UserCollectionEntity:
-      type: array
-      items:
-        $ref: '#/components/schemas/UserEntity'
-    UserLocationEntity:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Custom name of the location
-          nullable: true
-    UserLocationsEntity:
-      type: object
-      properties:
-        names:
-          type: array
-          description: Existing custom location names
-          items:
-            type: string
-    WorkspaceDeviceConfigBaseEntity:
-      type: object
-      properties:
-        admin_username:
-          type: string
-          description: Admin username of the user
-        internal_fqdn:
-          type: string
-          description: Internal FQDN of the user
-        external_fqdn:
-          type: string
-          description: External FQDN of the user
-        management_fqdn:
-          type: string
-          description: Management FQDN of the user
-        company_name:
-          type: string
-          description: Company name of the user
-        primary_dns:
-          type: string
-          description: Primary DNS of the user
-        secondary_dns:
-          type: string
-          description: Secondary DNS of the user
-        private_domain_name:
-          type: string
-          description: Private Domain name of the user
-        public_domain_name:
-          type: string
-          description: Public domain name of the user
-        management_domain_name:
-          type: string
-          description: Management domain name of the user
-        internal_ip_address:
-          type: string
-          description: Internal IP address of the user
-        internal_subnet:
-          type: string
-          description: Internal subnet of the user
-        internal_user:
-          type: string
-          description: Internal user of the user
-        external_ip_address:
-          type: string
-          description: External IP address of the user
-        external_subnet:
-          type: string
-          description: External subnet of the user
-        external_user:
-          type: string
-          description: External user of the user
-        management_ip_address:
-          type: string
-          description: Management IP address of the user
-        public_ip_address:
-          type: string
-          description: The IP address for which a DNS record will be created
-        management_subnet:
-          type: string
-          description: Mangement subnet of the user
-        management_user:
-          type: string
-          description: Mangement user of the user
-        dns_search_domain:
-          type: string
-          description: User's DNS search domain.
-    WorkspaceDeviceConfigCreateEntity:
-      allOf:
-        - $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
-        - type: object
-          properties:
-            admin_password:
-              type: string
-              description: Admin password of the user
-    WorkspaceDeviceConfigEntity:
-      $ref: '#/components/schemas/WorkspaceDeviceConfigBaseEntity'
-    WorkspaceConfigCreateEntity:
-      type: object
-      properties:
-        device_config:
-          $ref: '#/components/schemas/WorkspaceDeviceConfigCreateEntity'
-    WorkspaceConfigEntity:
-      type: object
-      properties:
-        device_id:
-          $ref: '#/components/schemas/UserId'
-        device_config:
-          $ref: '#/components/schemas/WorkspaceDeviceConfigEntity'
-    WorkspaceConfigResponseEntity:
-      $ref: '#/components/schemas/WorkspaceConfigEntity'
+  /api/Applications:
+    post:
+      summary: Create a Application
+      operationId: dal.Applications.create_and_get
+      requestBody:
+        description: Parameters to define a new Application.
+        content:
+          application/json:
+            schema:
+              x-body-name: Application
+              $ref: '#/components/schemas/ApplicationCreateEntity'
+            example:
+              name: test_Application
+              workspaces_type: vsphere
+      responses:
+        '200':
+          description: Application created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationCreateResponseEntity'
+              example:
+                id: d7d155ec-dee9-d771-e9fd-f84d62e6b59a
+                name: test_Application
+                state: unregistered
+                created: '2020-03-12T06:51:50Z'
+                updated: '2020-03-12T06:51:50Z'
+                type: null
+                model: null
+                serial_number: null
+                device_version: null
+                sdp_mode: Application
+                notification_channel_status: offline
+                workspaces:
+                  type: vsphere
+                  mode: manual
+        '409':
+          description: Duplicate Application name
+    get:
+      summary: List all Applications.for a tenant
+      operationId: dal.Applications.get_all
+      responses:
+        '200':
+          description: Get a list of all Applications for the tenant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationCollectionEntity'
+  '/api/Applications/{Application_id}':
+    get:
+      summary: Get details of a Application by id
+      operationId: dal.Applications.get
+      parameters:
+        - name: Application_id
+          in: path
+          description: Id of Application
+          required: true
+          schema:
+            $ref: '#/components/schemas/ApplicationId'
+      responses:
+        '200':
+          description: Application retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationEntity'
+        '404':
+          description: Application not found
+    put:
+      summary: Update a Application
+      operationId: dal.Applications.update
+      parameters:
+        - name: Application_id
+          in: path
+          description: Id of Application
+          required: true
+          schema:
+            $ref: '#/components/schemas/ApplicationId'
+      requestBody:
+        description: Parameters to update a Application.
+        content:
+          application/json:
+            schema:
+              x-body-name: Application
+              $ref: '#/components/schemas/ApplicationUpdateEntity'
+            example:
+              name: test_Application
+              workspaces_type: vsphere
+      responses:
+        '200':
+          description: Application updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationUpdateResponseEntity'
+              example:
+                id: d7d155ec-dee9-d771-e9fd-f84d62e6b59a
+                name: test_Application
+                state: unregistered
+                created: '2020-03-12T06:51:50Z'
+                updated: '2020-03-12T06:51:50Z'
+                type: null
+                model: null
+                serial_number: null
+                device_version: null
+                sdp_mode: Application
+                notification_channel_status: offline
+                workspaces:
+                  type: vsphere
+                  mode: manual
+        '409':
+          description: Duplicate Application name
+    delete:
+      summary: Delete a Application
+      operationId: dal.Applications.delete
+      parameters:
+        - name: Application_id
+          in: path
+          description: Id of Application
+          required: true
+          schema:
+            $ref: '#/components/schemas/ApplicationId'
+      responses:
+        '204':
+          description: Application deleted successfully
+  /api/Applications/locations:
+    get:
+      summary: >-
+        Get location info of the Applications. It returns a list of existing
+        custom name.
+      operationId: dal.Applications.get_locations
+      responses:
+        '200':
+          description: Retrieve location info successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationLocationsEntity'
+  '/api/Applications/{Application_id}/workspaces':
+    post:
+      summary: Create Application's workspaces config
+      operationId: dal.workspaces_config.create_and_get
+      parameters:
+        - name: Application_id
+          in: path
+          description: Id of Application
+          required: true
+          schema:
+            $ref: '#/components/schemas/ApplicationId'
+      requestBody:
+        description: Parameters to define Application's workspaces config.
+        content:
+          application/json:
+            schema:
+              x-body-name: workspaces_config
+              $ref: '#/components/schemas/WorkspaceConfigCreateEntity'
+      responses:
+        '200':
+          description: Application workspaces config created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceConfigResponseEntity'
+        '404':
+          description: Device ID is invalid.
