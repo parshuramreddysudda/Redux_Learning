@@ -38,8 +38,9 @@ const UserComponent = (props) => {
   const [open, setOpen] = useState(false);
   const [opeCount, setOpenCount] = useState(0);
   const ApiCall = () => {
+    let isMounted = true;
     MainServices.getUser(props.user).then(res => {
-      setUser(res.data);
+      if (isMounted)  setUser(res.data);;
       if (opeCount === 0) {
         setOpenCount(1);
       }
@@ -47,6 +48,7 @@ const UserComponent = (props) => {
         handleOpen()
       }
     })
+    return () => { isMounted = false };
   }
 
   useEffect(() => {

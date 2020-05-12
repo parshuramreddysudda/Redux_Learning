@@ -46,8 +46,9 @@ const UserComponent = (props) => {
 
     setOpen(false);
   };
-
   const deleteID = () => {
+    setSnakOpen(true);
+    setSnakDesc("User id "+props.user+" is Deleted");
     props.delete()
     setOpen(false);
   };

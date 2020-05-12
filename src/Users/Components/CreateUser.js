@@ -28,14 +28,14 @@ const CreateUser = (props) => {
     const initUser = { id: "", name: '', state: '', updated: "", created: '', type: '' };
     const [user, setUser] = useState(initUser)
     const [open, setOpen] = useState(false);
-    const [snakType,setSnaktype]=useState("success")
+    const [snakType, setSnaktype] = useState("success")
     const [snakOpen, setSnakOpen] = useState(false)
     const [snakDesc, setSnakDesc] = useState("asd")
     const ApiCall = () => {
 
-            if (props.Open) {
-                setOpen(true)
-            }
+        if (props.Open) {
+            setOpen(true)
+        }
     }
     useEffect(() => {
         ApiCall();
@@ -45,21 +45,35 @@ const CreateUser = (props) => {
     }
     const classes = useStyles();
     const sendData = () => {
-        if(user.id.length>35){
-        MainServices.putUser(user.id, user.name, user.state, user.created, user.updated, user.type).then(res => {
-        })
-        setSnaktype("success")
-        setSnakDesc("User ID with " + user.id + " has successfully Created")
-        setSnakOpen(true);
-        handleClose();
-        props.closeModel()
-        setUser(initUser)
+
+        if (user.id.length > 35) {
+            validateUserID(user.id)
+        }
+        else {
+            setSnaktype("warning")
+            setSnakDesc("User ID " + user.id + " doesn't have length of 36 letters, try to add more  characters")
+            setSnakOpen(true);
+        }
     }
-    else{
-        setSnaktype("warning")
-        setSnakDesc("User ID "+user.id+" doesn't have length of 36 letters, try to add more  characters")
-        setSnakOpen(true);
-    }
+    const validateUserID = (id) => {
+
+        const validate=props.users.filter(element=>{return element.id==id})
+        if(validate==0)
+        {
+            setSnaktype("success")
+            setSnakDesc("User ID with " + user.id + " has successfully Created")
+            setSnakOpen(true);
+            handleClose();
+            props.closeModel()
+            setUser(initUser)
+            props.createUser(user);
+        }
+        else{
+            setSnaktype("warning")
+            setSnakDesc("User ID " + user.id + " already exits, try to add different one")
+            setSnakOpen(true);
+        }
+
     }
     const handleChange = e => {
         const { name, value } = e.target;
@@ -87,7 +101,7 @@ const CreateUser = (props) => {
                         <h4> Here you can create User using following textfields</h4>
                         <Grid container spacing={3}>
                             <Grid item md={4} >
-                                <TextField id="outlined-basic Id"  label="Id" variant="outlined" name="id" size="small"  onChange={handleChange} value={user.id}  >
+                                <TextField id="outlined-basic Id" label="Id" variant="outlined" name="id" size="small" onChange={handleChange} value={user.id}  >
                                 </TextField>
                             </Grid>
                             <Grid item md={4}>
