@@ -19,11 +19,9 @@ export const fetchUsersError = (error) => ({
 export const updateUserPending = () => ({
   type: 'UPDATE_USERS_PENDING'
 });
-
 export const updateUserCompleted = () => ({
   type: 'UPDATE_USERS_COMPLETED'
 });
-
 export const updateUserSuccess = (updateUser, id) => ({
   type: 'UPDATE_USERS_SUCCESS',
   payload: { updateUser, id }
